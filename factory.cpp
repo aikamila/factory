@@ -13,6 +13,7 @@ struct machine
 };
 
 void add_all_machines(struct machine **all_machines_list, FILE *src_file)
+// adding all machines listed in a file to the linked list
 {
     int _id;
     int _capacity;
@@ -31,6 +32,7 @@ void add_all_machines(struct machine **all_machines_list, FILE *src_file)
 }
 
 int count_machines(struct machine *list)
+// counting machines in a linked list
 {
     int counter = 0;
     while (list != NULL)
@@ -48,6 +50,7 @@ void add_machine_to_a_list(struct machine **list, struct machine *machine_to_add
 }
 
 void repair(struct machine **machines_under_repair_list, struct machine **working_machines_list, int free_places, int max_decrease)
+// removing appropriate machines from working_machines_list and adding them to machines_under_repair_list
 {
     free_places = min(free_places, count_machines(*working_machines_list));
     int machines_already_added = 0;
