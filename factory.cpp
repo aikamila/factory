@@ -56,25 +56,25 @@ void repair(struct machine **machines_under_repair_list, struct machine **workin
         int id_of_the_best_choice = -1;
         int year_of_the_best_choice = 0;
         int max_error_percent = INT_MIN;
-        struct machine *working_mashines_list_beginning = (*working_machines_list);
-        while (working_mashines_list_beginning != NULL)
+        struct machine *working_mashines_list_node = (*working_machines_list);
+        while (working_mashines_list_node != NULL)
         {
-            if (working_mashines_list_beginning->capacity <= max_decrease)
+            if (working_mashines_list_node->capacity <= max_decrease)
             {
-                int faulty_items = (working_mashines_list_beginning->capacity) * (working_mashines_list_beginning->percent_of_errors);
+                int faulty_items = (working_mashines_list_node->capacity) * (working_mashines_list_node->percent_of_errors);
                 if (faulty_items > max_error_percent)
                 {
                     max_error_percent = faulty_items;
-                    year_of_the_best_choice = working_mashines_list_beginning->year_of_production;
-                    id_of_the_best_choice = working_mashines_list_beginning->id;
+                    year_of_the_best_choice = working_mashines_list_node->year_of_production;
+                    id_of_the_best_choice = working_mashines_list_node->id;
                 }
-                if (faulty_items == max_error_percent && working_mashines_list_beginning->year_of_production < year_of_the_best_choice)
+                if (faulty_items == max_error_percent && working_mashines_list_node->year_of_production < year_of_the_best_choice)
                 {
-                    year_of_the_best_choice = working_mashines_list_beginning->year_of_production;
-                    id_of_the_best_choice = working_mashines_list_beginning->id;
+                    year_of_the_best_choice = working_mashines_list_node->year_of_production;
+                    id_of_the_best_choice = working_mashines_list_node->id;
                 }
             }
-            working_mashines_list_beginning = working_mashines_list_beginning->next;
+            working_mashines_list_node = working_mashines_list_node->next;
         }
         if (id_of_the_best_choice == -1)
         {
@@ -82,25 +82,25 @@ void repair(struct machine **machines_under_repair_list, struct machine **workin
         }
         else
         {
-            working_mashines_list_beginning = (*working_machines_list);
-            if (working_mashines_list_beginning->id == id_of_the_best_choice)
+            working_mashines_list_node = (*working_machines_list);
+            if (working_mashines_list_node->id == id_of_the_best_choice)
             {
-                (*working_machines_list) = working_mashines_list_beginning->next;
-                add_machine_to_a_list(machines_under_repair_list, working_mashines_list_beginning);
+                (*working_machines_list) = working_mashines_list_node->next;
+                add_machine_to_a_list(machines_under_repair_list, working_mashines_list_node);
             }
             else
             {
                 struct machine *prev;
-                while (working_mashines_list_beginning->id != id_of_the_best_choice)
+                while (working_mashines_list_node->id != id_of_the_best_choice)
                 {
-                    prev = working_mashines_list_beginning;
-                    working_mashines_list_beginning = working_mashines_list_beginning->next;
+                    prev = working_mashines_list_node;
+                    working_mashines_list_node = working_mashines_list_node->next;
                 }
-                prev->next = working_mashines_list_beginning->next;
-                add_machine_to_a_list(machines_under_repair_list, working_mashines_list_beginning);
+                prev->next = working_mashines_list_node->next;
+                add_machine_to_a_list(machines_under_repair_list, working_mashines_list_node);
             }
             machines_already_added++;
-            max_decrease -= working_mashines_list_beginning->capacity;
+            max_decrease -= working_mashines_list_node->capacity;
         }
     }
     printf("Started to repair %d machine(s)\n", machines_already_added);
